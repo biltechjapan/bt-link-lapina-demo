@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <meta http-equiv="Cache-Control" content="no-store">
+  <meta name="theme-color" content="#fbf7f1">
+  <title>訪問可能時間｜Lapina</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <div id="auth-gate" class="gate">
+    <p>確認しています…</p>
+  </div>
+  <div id="app" class="admin-app" hidden>
+    <header class="admin-header">
+      <a class="brand" href="../index.html">
+        <img src="../images/lapina-logo.png" alt="Lapina ラピナ" width="1927" height="816">
+      </a>
+      <div class="header-actions">
+        <a class="header-link" href="index.html">管理トップ</a>
+        <button id="logout-button" class="logout" type="button">ログアウト</button>
+      </div>
+    </header>
+    <main class="admin-main" id="content">
+      <header class="page-heading">
+        <p class="kicker">Visits</p>
+        <h1>訪問可能時間</h1>
+        <p class="lead">Lapina（ラピナ）管理画面 Ver1.09</p>
+        <p class="session">ログイン中：<span id="admin-email"></span></p>
+      </header>
+
+      <p class="patient-caution visit-note">この登録は予約を作りません。店舗の営業時間、休業日、予約カレンダーも変わりません。同じ曜日で重なる時間帯は登録できません。</p>
+      <p id="page-message" class="form-message" role="status"></p>
+
+      <div class="visit-layout">
+        <section class="visit-list" aria-labelledby="list-title">
+          <h2 id="list-title">登録済みの時間帯</h2>
+          <p id="visit-empty" class="patient-empty" hidden>登録されている時間帯はありません。</p>
+          <div id="visit-list"></div>
+        </section>
+
+        <section class="patient-form visit-form" aria-labelledby="form-title">
+          <h2 id="form-title">時間帯の登録</h2>
+          <form id="visit-form" method="post" action="visit-availability.html">
+            <div class="field">
+              <label for="visit-weekday">曜日</label>
+              <select id="visit-weekday" name="weekday" required>
+                <option value="1">月曜日</option>
+                <option value="2">火曜日</option>
+                <option value="3">水曜日</option>
+                <option value="4">木曜日</option>
+                <option value="5">金曜日</option>
+                <option value="6">土曜日</option>
+                <option value="0">日曜日</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="visit-start">開始時刻</label>
+              <input id="visit-start" name="starts_at" type="time" step="60" required>
+            </div>
+            <div class="field">
+              <label for="visit-end">終了時刻</label>
+              <input id="visit-end" name="ends_at" type="time" step="60" required>
+            </div>
+            <div class="field check-field">
+              <input id="visit-active" name="is_active" type="checkbox" checked>
+              <label for="visit-active">利用する</label>
+            </div>
+            <p id="form-message" class="form-message" role="alert"></p>
+            <div class="patient-actions">
+              <button id="visit-save" class="submit" type="submit">保存する</button>
+              <button id="visit-reset" class="button-quiet" type="button">入力をクリア</button>
+            </div>
+          </form>
+        </section>
+      </div>
+
+      <section id="confirm-panel" class="visit-confirm" hidden aria-labelledby="confirm-title">
+        <h2 id="confirm-title">削除の確認</h2>
+        <p id="confirm-text"></p>
+        <p id="confirm-message" class="form-message" role="alert"></p>
+        <div class="patient-actions">
+          <button id="confirm-run" class="submit" type="button">削除する</button>
+          <button id="confirm-back" class="button-quiet" type="button">戻る</button>
+        </div>
+      </section>
+    </main>
+  </div>
+  <noscript>
+    <style>#auth-gate { display: none !important; }</style>
+    <p class="gate">訪問可能時間の表示にはJavaScriptが必要です。</p>
+  </noscript>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/visit-availability.js"></script>
+</body>
+</html>

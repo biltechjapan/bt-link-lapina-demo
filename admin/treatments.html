@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <meta http-equiv="Cache-Control" content="no-store">
+  <meta name="theme-color" content="#fbf7f1">
+  <title>施術管理｜Lapina</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <div id="auth-gate" class="gate">
+    <p>確認しています…</p>
+  </div>
+  <div id="app" class="admin-app" hidden>
+    <header class="admin-header">
+      <a class="brand" href="../index.html">
+        <img src="../images/lapina-logo.png" alt="Lapina ラピナ" width="1927" height="816">
+      </a>
+      <div class="header-actions">
+        <a class="header-link" href="index.html">管理トップ</a>
+        <button id="logout-button" class="logout" type="button">ログアウト</button>
+      </div>
+    </header>
+    <main class="admin-main" id="content">
+      <header class="page-heading">
+        <p class="kicker">Treatments</p>
+        <h1>施術管理</h1>
+        <p class="lead">Lapina（ラピナ）管理画面 Ver1.09</p>
+        <p class="session">ログイン中：<span id="admin-email"></span></p>
+      </header>
+
+      <div class="patient-toolbar treatment-toolbar">
+        <div class="field">
+          <label for="patient-id">患者</label>
+          <select id="patient-id" name="patient_id">
+            <option value="">選択してください</option>
+          </select>
+        </div>
+      </div>
+      <p id="page-message" class="form-message" role="alert"></p>
+
+      <div class="patient-layout">
+        <section class="patient-list" aria-labelledby="list-title">
+          <h2 id="list-title">施術記録</h2>
+          <div id="record-list" class="patient-items"></div>
+        </section>
+
+        <section class="patient-form treatment-form" aria-labelledby="form-title">
+          <h2 id="form-title">施術の登録</h2>
+          <form id="record-form" method="post" action="treatments.html">
+            <fieldset id="record-fields">
+              <div class="field">
+                <label for="treatment-date">施術日</label>
+                <input id="treatment-date" name="treatment_date" type="date" required>
+              </div>
+              <div class="field">
+                <label for="treatment-type">施術区分</label>
+                <select id="treatment-type" name="treatment_type" required>
+                  <option value="">選択してください</option>
+                  <option value="massage">マッサージ</option>
+                  <option value="acupuncture">鍼</option>
+                  <option value="moxibustion">灸</option>
+                  <option value="combined">併用</option>
+                  <option value="other">その他</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="visit-type">施術場所</label>
+                <select id="visit-type" name="visit_type" required>
+                  <option value="clinic">店舗</option>
+                  <option value="visit">訪問</option>
+                </select>
+              </div>
+              <div class="field" id="location-field" hidden>
+                <label for="location-id">訪問先</label>
+                <select id="location-id" name="location_id">
+                  <option value="">選択してください</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="payment-type">支払区分</label>
+                <select id="payment-type" name="payment_type" required>
+                  <option value="">選択してください</option>
+                  <option value="insurance">保険</option>
+                  <option value="private">自費</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="record-status">施術状態</label>
+                <select id="record-status" name="status" required>
+                  <option value="draft">下書き</option>
+                  <option value="confirmed">確定</option>
+                  <option value="cancelled">キャンセル</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="record-notes">備考</label>
+                <textarea id="record-notes" name="notes"></textarea>
+              </div>
+            </fieldset>
+            <p id="record-lock" class="patient-caution" hidden>確定済みのため、内容は変更できません。キャンセルだけできます。</p>
+            <p id="form-message" class="form-message" role="alert"></p>
+            <div class="patient-actions">
+              <button id="record-save" class="submit" type="submit">保存する</button>
+              <button id="record-reset" class="button-quiet" type="button">入力をクリア</button>
+              <button id="record-cancel" class="button-quiet" type="button" hidden>この施術をキャンセル</button>
+            </div>
+          </form>
+        </section>
+      </div>
+
+      <section id="detail-panel" class="treatment-detail" hidden aria-labelledby="detail-title">
+        <h2 id="detail-title">施術明細</h2>
+        <p id="detail-record" class="patient-meta"></p>
+        <div id="detail-list" class="patient-items"></div>
+        <form id="detail-form" class="patient-form" method="post" action="treatments.html">
+          <h3 id="detail-form-title">明細の登録</h3>
+          <fieldset id="detail-fields">
+            <div class="field">
+              <label for="item-type">明細区分</label>
+              <select id="item-type" name="item_type" required>
+                <option value="">選択してください</option>
+                <option value="massage_local">マッサージ（局所）</option>
+                <option value="corrective_manipulation">変形徒手矯正術</option>
+                <option value="hot_pack">温罨法</option>
+                <option value="hot_pack_device">温罨法・電気光線器具</option>
+                <option value="initial_exam">初検料</option>
+                <option value="acupuncture">はり</option>
+                <option value="moxibustion">きゅう</option>
+                <option value="combined_treatment">はり・きゅう併用</option>
+                <option value="electrotherapy">電療料</option>
+                <option value="travel">往療</option>
+              </select>
+            </div>
+            <div class="field" id="body-part-field" hidden>
+              <label for="body-part">局所</label>
+              <select id="body-part" name="body_part">
+                <option value="">選択してください</option>
+                <option value="trunk">躯幹</option>
+                <option value="right_upper_limb">右上肢</option>
+                <option value="left_upper_limb">左上肢</option>
+                <option value="right_lower_limb">右下肢</option>
+                <option value="left_lower_limb">左下肢</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="detail-quantity">数量</label>
+              <input id="detail-quantity" name="quantity" type="text" inputmode="numeric" value="1" required autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="detail-unit-fee">単価</label>
+              <input id="detail-unit-fee" name="unit_fee" type="text" inputmode="numeric" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="detail-amount">金額</label>
+              <input id="detail-amount" name="amount" type="text" inputmode="numeric" required autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="fee-schedule">料金表</label>
+              <input id="fee-schedule" name="fee_schedule" type="text" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="detail-notes">明細備考</label>
+              <textarea id="detail-notes" name="notes"></textarea>
+            </div>
+          </fieldset>
+          <p class="patient-caution">保険の料金算定は行いません。金額は手入力です。</p>
+          <p id="detail-message" class="form-message" role="alert"></p>
+          <div class="patient-actions">
+            <button id="detail-save" class="submit" type="submit">明細を保存</button>
+            <button id="detail-reset" class="button-quiet" type="button">入力をクリア</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+  <noscript>
+    <style>#auth-gate { display: none !important; }</style>
+    <p class="gate">施術管理の表示にはJavaScriptが必要です。</p>
+  </noscript>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/treatments.js"></script>
+</body>
+</html>

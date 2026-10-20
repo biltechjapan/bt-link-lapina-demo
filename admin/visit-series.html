@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <meta http-equiv="Cache-Control" content="no-store">
+  <meta name="theme-color" content="#fbf7f1">
+  <title>定期訪問｜Lapina</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <div id="auth-gate" class="gate">
+    <p>確認しています…</p>
+  </div>
+  <div id="app" class="admin-app" hidden>
+    <header class="admin-header">
+      <a class="brand" href="../index.html">
+        <img src="../images/lapina-logo.png" alt="Lapina ラピナ" width="1927" height="816">
+      </a>
+      <div class="header-actions">
+        <a class="header-link" href="index.html">管理トップ</a>
+        <button id="logout-button" class="logout" type="button">ログアウト</button>
+      </div>
+    </header>
+    <main class="admin-main" id="content">
+      <header class="page-heading">
+        <p class="kicker">Visits</p>
+        <h1>定期訪問</h1>
+        <p class="lead">Lapina（ラピナ）管理画面 Ver1.09</p>
+        <p class="session">ログイン中：<span id="admin-email"></span></p>
+      </header>
+
+      <p class="patient-caution visit-note">初めての定期訪問だけ、今日から最大12週間分を登録します。同じ定期の続きは、一覧の「先の12週間を作る」を使います。改めて新規登録する必要はありません。終了日を超える日、一時停止・終了・取消の定期には作りません。訪問可能時間の外でも登録できますが、その場合は確認します。</p>
+      <p id="page-message" class="form-message" role="status"></p>
+
+      <div class="visit-layout">
+        <section class="visit-list" aria-labelledby="list-title">
+          <h2 id="list-title">登録済みの定期訪問</h2>
+          <p class="patient-meta">利用中の定期は、ここから先の予約を作ります。すでに入っている日と、1回だけ変更・キャンセルした日は作り直しません。</p>
+          <p id="series-empty" class="patient-empty" hidden>登録されている定期訪問はありません。</p>
+          <div id="series-list" class="patient-items"></div>
+          <div id="skip-panel" class="series-skips" hidden>
+            <h3>作らなかった日</h3>
+            <ul id="skip-list"></ul>
+          </div>
+        </section>
+
+        <section class="patient-form visit-form" aria-labelledby="form-title">
+          <h2 id="form-title">初めての定期訪問</h2>
+          <p class="patient-meta">新しい曜日の定期を始めるときだけ使います。終了日を入れると、その日を超えて予約を作りません。</p>
+          <form id="series-form" method="post" action="visit-series.html">
+            <div class="field">
+              <label for="series-patient">患者</label>
+              <select id="series-patient" name="patient_id" required>
+                <option value="">選択してください</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="series-location">訪問先</label>
+              <select id="series-location" name="location_id" required>
+                <option value="">選択してください</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="series-weekday">曜日</label>
+              <select id="series-weekday" name="weekday" required>
+                <option value="1">月曜日</option>
+                <option value="2">火曜日</option>
+                <option value="3">水曜日</option>
+                <option value="4">木曜日</option>
+                <option value="5">金曜日</option>
+                <option value="6">土曜日</option>
+                <option value="0">日曜日</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="series-start">開始時刻</label>
+              <input id="series-start" name="starts_at" type="time" step="60" required>
+            </div>
+            <div class="field">
+              <label for="series-end">終了時刻</label>
+              <input id="series-end" name="ends_at" type="time" step="60" required>
+            </div>
+            <div class="field">
+              <label for="series-starts-on">開始日</label>
+              <input id="series-starts-on" name="starts_on" type="date" required>
+            </div>
+            <div class="field">
+              <label for="series-ends-on">終了日</label>
+              <input id="series-ends-on" name="ends_on" type="date">
+            </div>
+            <div class="field">
+              <label for="series-treatment">施術区分</label>
+              <select id="series-treatment" name="treatment_type" required>
+                <option value="">選択してください</option>
+                <option value="massage">マッサージ</option>
+                <option value="acupuncture">鍼</option>
+                <option value="moxibustion">灸</option>
+                <option value="combined">併用</option>
+                <option value="other">その他</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="series-payment">支払区分</label>
+              <select id="series-payment" name="payment_type" required>
+                <option value="">選択してください</option>
+                <option value="insurance">保険</option>
+                <option value="private">自費</option>
+              </select>
+            </div>
+            <p id="form-message" class="form-message" role="alert"></p>
+            <div class="patient-actions">
+              <button id="series-save" class="submit" type="submit">最初の12週間を登録</button>
+            </div>
+          </form>
+        </section>
+      </div>
+
+      <section id="confirm-panel" class="visit-confirm" hidden aria-labelledby="confirm-title">
+        <h2 id="confirm-title">確認</h2>
+        <p id="confirm-text"></p>
+        <div class="field" id="confirm-date-field" hidden>
+          <label for="confirm-date">終了日</label>
+          <input id="confirm-date" type="date">
+        </div>
+        <p id="confirm-message" class="form-message" role="alert"></p>
+        <div class="patient-actions">
+          <button id="confirm-run" class="submit" type="button">実行する</button>
+          <button id="confirm-back" class="button-quiet" type="button">戻る</button>
+        </div>
+      </section>
+    </main>
+  </div>
+  <noscript>
+    <style>#auth-gate { display: none !important; }</style>
+    <p class="gate">定期訪問の表示にはJavaScriptが必要です。</p>
+  </noscript>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/visit-series.js"></script>
+</body>
+</html>

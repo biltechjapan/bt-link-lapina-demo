@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <meta http-equiv="Cache-Control" content="no-store">
+  <meta name="theme-color" content="#fbf7f1">
+  <title>予約管理｜Lapina</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <div id="auth-gate" class="gate">
+    <p>確認しています…</p>
+  </div>
+  <div id="app" class="admin-app" hidden>
+    <header class="admin-header">
+      <a class="brand" href="../index.html">
+        <img src="../images/lapina-logo.png" alt="Lapina ラピナ" width="1927" height="816">
+      </a>
+      <div class="header-actions">
+        <a class="header-link" href="index.html">管理トップ</a>
+        <button id="logout-button" class="logout" type="button">ログアウト</button>
+      </div>
+    </header>
+    <main class="admin-main" id="content">
+      <header class="page-heading">
+        <p class="kicker">Appointments</p>
+        <h1>予約管理</h1>
+        <p class="lead">Lapina（ラピナ）管理画面 Ver1.09</p>
+        <p class="session">ログイン中：<span id="admin-email"></span></p>
+      </header>
+
+      <section class="appt-cal" aria-labelledby="cal-title">
+        <div class="appt-cal-head">
+          <button id="cal-prev" class="button-quiet" type="button">前の月</button>
+          <h2 id="cal-title">予約カレンダー</h2>
+          <button id="cal-next" class="button-quiet" type="button">次の月</button>
+        </div>
+        <p class="appt-cal-legend">日付を選ぶと、その日の予約を下に表示します。件数は予約・完了・キャンセルと、店舗・訪問で分けています。定期訪問には「定期」、その日だけ変えた予約には「この日だけ」と出します。時間ブロックは別色です。</p>
+        <div id="cal-grid" class="appt-cal-grid"></div>
+      </section>
+
+      <section class="appt-block" aria-labelledby="block-title">
+        <h2 id="block-title">時間ブロック登録</h2>
+        <p class="appt-cal-legend">表示日の開始時刻と終了時刻、理由を入力します。中島店・神明店・訪問に共通する、1人分の予約不可時間です。予約・患者・施術記録は作りません。解除しても履歴は残します。</p>
+        <form id="block-form" method="post" action="appointments.html">
+          <div class="field">
+            <label for="block-start">開始時刻</label>
+            <input id="block-start" name="block_start" type="time" step="60" required>
+          </div>
+          <div class="field">
+            <label for="block-end">終了時刻</label>
+            <input id="block-end" name="block_end" type="time" step="60" required>
+          </div>
+          <div class="field">
+            <label for="block-reason">理由</label>
+            <input id="block-reason" name="block_reason" type="text" maxlength="200" autocomplete="off" required>
+          </div>
+          <p id="block-message" class="form-message" role="alert"></p>
+          <div class="appt-actions">
+            <button id="block-save" class="submit" type="submit">時間ブロックを登録</button>
+            <button id="block-reset" class="button-quiet" type="button">入力をクリア</button>
+          </div>
+        </form>
+        <div id="block-list" class="appt-items"></div>
+      </section>
+
+      <div class="appt-toolbar">
+        <div class="field">
+          <label for="appointment-date">表示日</label>
+          <input id="appointment-date" type="date" required>
+        </div>
+      </div>
+      <p id="page-message" class="form-message" role="alert"></p>
+
+      <div class="appt-layout">
+        <section class="appt-list" aria-labelledby="list-title">
+          <h2 id="list-title">この日の予約</h2>
+          <div id="appointment-list" class="appt-items"></div>
+        </section>
+
+        <section class="appt-form" aria-labelledby="form-title">
+          <h2 id="form-title">予約の登録</h2>
+          <form id="appointment-form" method="post" action="appointments.html">
+            <div class="field">
+              <label for="patient-id">患者</label>
+              <select id="patient-id" name="patient_id" required>
+                <option value="">選択してください</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="start-at">開始日時</label>
+              <input id="start-at" name="start_at" type="datetime-local" required>
+            </div>
+            <div class="field">
+              <label for="end-at">終了日時</label>
+              <input id="end-at" name="end_at" type="datetime-local" required>
+            </div>
+            <div class="field">
+              <label for="location-type">店舗・訪問</label>
+              <select id="location-type" name="location_type" required>
+                <option value="clinic">店舗</option>
+                <option value="visit">訪問</option>
+              </select>
+            </div>
+            <div class="field" id="location-field" hidden>
+              <label for="patient-location-id">訪問先</label>
+              <select id="patient-location-id" name="patient_location_id">
+                <option value="">選択してください</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="treatment-type">施術区分</label>
+              <select id="treatment-type" name="treatment_type" required>
+                <option value="">選択してください</option>
+                <option value="massage">マッサージ</option>
+                <option value="acupuncture">鍼</option>
+                <option value="moxibustion">灸</option>
+                <option value="combined">併用</option>
+                <option value="other">その他</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="payment-type">支払区分</label>
+              <select id="payment-type" name="payment_type" required>
+                <option value="">選択してください</option>
+                <option value="insurance">保険</option>
+                <option value="private">自費</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="status">予約状態</label>
+              <select id="status" name="status" required>
+                <option value="scheduled">予約</option>
+                <option value="completed">完了</option>
+                <option value="cancelled">キャンセル</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="title">タイトル</label>
+              <input id="title" name="title" type="text" maxlength="200" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="notes">備考</label>
+              <textarea id="notes" name="notes" maxlength="2000"></textarea>
+            </div>
+            <p id="form-message" class="form-message" role="alert"></p>
+            <p class="appt-caution">重なる予約は画面で確認して保存を止めます。データベース側の重複制約はないため、同時の保存までは防げません。</p>
+            <div class="appt-actions">
+              <button class="submit" type="submit">保存する</button>
+              <button id="reset-button" class="button-quiet" type="button">入力をクリア</button>
+              <button id="cancel-button" class="button-quiet" type="button" hidden>この予約をキャンセル</button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </main>
+  </div>
+  <noscript>
+    <style>#auth-gate { display: none !important; }</style>
+    <p class="gate">予約管理の表示にはJavaScriptが必要です。</p>
+  </noscript>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/appointments.js"></script>
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <meta http-equiv="Cache-Control" content="no-store">
+  <meta name="theme-color" content="#fbf7f1">
+  <title>患者管理｜Lapina</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <div id="auth-gate" class="gate">
+    <p>確認しています…</p>
+  </div>
+  <div id="app" class="admin-app" hidden>
+    <header class="admin-header">
+      <a class="brand" href="../index.html">
+        <img src="../images/lapina-logo.png" alt="Lapina ラピナ" width="1927" height="816">
+      </a>
+      <div class="header-actions">
+        <a class="header-link" href="index.html">管理トップ</a>
+        <button id="logout-button" class="logout" type="button">ログアウト</button>
+      </div>
+    </header>
+    <main class="admin-main" id="content">
+      <header class="page-heading">
+        <p class="kicker">Patients</p>
+        <h1>患者管理</h1>
+        <p class="lead">Lapina（ラピナ）管理画面 Ver1.09</p>
+        <p class="session">ログイン中：<span id="admin-email"></span></p>
+      </header>
+
+      <div class="patient-toolbar">
+        <div class="field">
+          <label for="patient-search">検索</label>
+          <input id="patient-search" type="search" placeholder="患者番号・姓・名" autocomplete="off">
+        </div>
+      </div>
+      <p id="page-message" class="form-message" role="alert"></p>
+
+      <div class="patient-layout">
+        <section class="patient-list" aria-labelledby="list-title">
+          <h2 id="list-title">患者一覧</h2>
+          <div id="patient-list" class="patient-items"></div>
+        </section>
+
+        <section class="patient-form" aria-labelledby="form-title">
+          <h2 id="form-title">患者の登録</h2>
+          <form id="patient-form" method="post" action="patients.html">
+            <div class="field">
+              <label>患者番号</label>
+              <p id="patient-no" class="patient-meta">登録時に自動発行</p>
+            </div>
+            <div class="field">
+              <label for="last-name">姓</label>
+              <input id="last-name" name="last_name" type="text" required autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="first-name">名</label>
+              <input id="first-name" name="first_name" type="text" required autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="last-name-kana">姓（カナ）</label>
+              <input id="last-name-kana" name="last_name_kana" type="text" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="first-name-kana">名（カナ）</label>
+              <input id="first-name-kana" name="first_name_kana" type="text" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="birth-date">生年月日</label>
+              <input id="birth-date" name="birth_date" type="date">
+            </div>
+            <div class="field">
+              <label for="postal-code">郵便番号</label>
+              <input id="postal-code" name="postal_code" type="text" inputmode="numeric" autocomplete="postal-code">
+            </div>
+            <div class="field">
+              <label for="address">住所</label>
+              <input id="address" name="address" type="text" autocomplete="street-address">
+            </div>
+            <div class="field">
+              <label for="phone">電話番号</label>
+              <input id="phone" name="phone" type="tel" autocomplete="tel">
+            </div>
+            <div class="field">
+              <label for="mobile-phone">携帯電話</label>
+              <input id="mobile-phone" name="mobile_phone" type="tel" autocomplete="tel">
+            </div>
+            <div class="field">
+              <label for="email">メールアドレス</label>
+              <input id="email" name="email" type="text" inputmode="email" autocomplete="email">
+            </div>
+            <div class="field">
+              <label for="notes">備考</label>
+              <textarea id="notes" name="notes"></textarea>
+            </div>
+            <div class="field check-field">
+              <input id="is-active" name="is_active" type="checkbox" checked>
+              <label for="is-active">有効</label>
+            </div>
+            <p id="stored-unwritten" class="patient-stored" hidden></p>
+            <p class="patient-caution">性別と希望連絡方法は、CHECK制約の許可値が未確認のため、この画面では保存しません。登録済みの値がある場合は表示のみです。</p>
+            <p id="form-message" class="form-message" role="alert"></p>
+            <div class="patient-actions">
+              <button class="submit" type="submit">保存する</button>
+              <button id="reset-button" class="button-quiet" type="button">入力をクリア</button>
+            </div>
+          </form>
+        </section>
+      </div>
+
+      <section id="location-panel" class="location-panel" hidden aria-labelledby="location-title">
+        <h2 id="location-title">訪問先</h2>
+        <p id="location-patient" class="patient-meta"></p>
+        <div id="location-list" class="patient-items"></div>
+        <form id="location-form" class="patient-form location-form" method="post" action="patients.html">
+          <h3 id="location-form-title">訪問先の登録</h3>
+          <div class="field">
+            <label for="location-name">訪問先名称</label>
+            <input id="location-name" name="location_name" type="text" required autocomplete="off">
+          </div>
+          <div class="field">
+            <label for="location-postal-code">郵便番号</label>
+            <input id="location-postal-code" name="postal_code" type="text" inputmode="numeric" autocomplete="postal-code">
+          </div>
+          <div class="field">
+            <label for="location-address">住所</label>
+            <input id="location-address" name="address" type="text" required autocomplete="street-address">
+          </div>
+          <div class="field">
+            <label for="location-contact">担当者名</label>
+            <input id="location-contact" name="contact_name" type="text" autocomplete="off">
+          </div>
+          <div class="field">
+            <label for="location-phone">電話番号</label>
+            <input id="location-phone" name="phone" type="tel" autocomplete="tel">
+          </div>
+          <div class="field">
+            <label for="location-notes">訪問時の注意</label>
+            <textarea id="location-notes" name="access_notes"></textarea>
+          </div>
+          <div class="field check-field">
+            <input id="location-default" name="is_default" type="checkbox">
+            <label for="location-default">既定の訪問先</label>
+          </div>
+          <p class="patient-caution">既定の訪問先は、患者ごとに1件までです。別の既定がある場合は、先にその既定を外してから保存してください。</p>
+          <p id="location-message" class="form-message" role="alert"></p>
+          <div class="patient-actions">
+            <button class="submit" type="submit">訪問先を保存</button>
+            <button id="location-reset" class="button-quiet" type="button">入力をクリア</button>
+          </div>
+        </form>
+      </section>
+    </main>
+  </div>
+  <noscript>
+    <style>#auth-gate { display: none !important; }</style>
+    <p class="gate">患者管理の表示にはJavaScriptが必要です。</p>
+  </noscript>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/patients.js"></script>
+</body>
+</html>

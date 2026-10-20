@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <meta http-equiv="Cache-Control" content="no-store">
+  <meta name="theme-color" content="#fbf7f1">
+  <title>施術コース管理｜Lapina</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <div id="auth-gate" class="gate">
+    <p>確認しています…</p>
+  </div>
+  <div id="app" class="admin-app" hidden>
+    <header class="admin-header">
+      <a class="brand" href="../index.html">
+        <img src="../images/lapina-logo.png" alt="Lapina ラピナ" width="1927" height="816">
+      </a>
+      <div class="header-actions">
+        <a class="header-link" href="index.html">管理トップ</a>
+        <button id="logout-button" class="logout" type="button">ログアウト</button>
+      </div>
+    </header>
+    <main class="admin-main" id="content">
+      <header class="page-heading">
+        <p class="kicker">Courses</p>
+        <h1>施術コース管理</h1>
+        <p class="lead">Lapina（ラピナ）管理画面 Ver1.09</p>
+        <p class="session">ログイン中：<span id="admin-email"></span></p>
+      </header>
+
+      <p class="patient-caution course-note">料金は税込です。予約受付を有効にしても、お客様向けの予約画面はまだ開きません。</p>
+      <p id="page-message" class="form-message" role="alert"></p>
+
+      <div class="course-layout">
+        <section class="course-list" aria-labelledby="list-title">
+          <h2 id="list-title">施術コース</h2>
+          <p id="course-empty" class="patient-empty" hidden>登録されているコースはありません。</p>
+          <div class="course-table-wrap">
+            <table class="course-table">
+              <thead>
+                <tr>
+                  <th scope="col">表示順</th>
+                  <th scope="col">コース</th>
+                  <th scope="col">時間</th>
+                  <th scope="col">税込料金</th>
+                  <th scope="col">公開</th>
+                  <th scope="col">予約受付</th>
+                  <th scope="col">操作</th>
+                </tr>
+              </thead>
+              <tbody id="course-table"></tbody>
+            </table>
+          </div>
+          <div id="course-cards" class="course-cards"></div>
+        </section>
+
+        <section class="patient-form course-form" aria-labelledby="form-title">
+          <h2 id="form-title">コースの登録</h2>
+          <form id="course-form" method="post" action="service-courses.html">
+            <div class="field">
+              <label for="course-name">コース名</label>
+              <input id="course-name" name="name" type="text" required maxlength="100" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="course-duration">施術時間（分）</label>
+              <input id="course-duration" name="duration_minutes" type="text" inputmode="numeric" required autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="course-price">税込料金（円）</label>
+              <input id="course-price" name="price_yen" type="text" inputmode="numeric" required autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="course-summary">見出し</label>
+              <input id="course-summary" name="summary" type="text" maxlength="200" autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="course-description">説明文</label>
+              <textarea id="course-description" name="description" maxlength="2000"></textarea>
+            </div>
+            <div class="field">
+              <label for="course-sort">表示順</label>
+              <input id="course-sort" name="sort_order" type="text" inputmode="numeric" required autocomplete="off">
+            </div>
+            <p class="patient-caution">表示順はコースごとに異なる番号です。使用中の番号を保存すると、そのコースと入れ替えます。</p>
+            <div class="field check-field">
+              <input id="course-public" name="is_public" type="checkbox">
+              <label for="course-public">公開する</label>
+            </div>
+            <div class="field check-field">
+              <input id="course-bookings" name="accepts_bookings" type="checkbox">
+              <label for="course-bookings">予約を受け付ける</label>
+            </div>
+            <p class="patient-caution">非公開のコースは、予約受付を有効にできません。</p>
+            <p id="form-message" class="form-message" role="alert"></p>
+            <div class="patient-actions">
+              <button id="course-save" class="submit" type="submit">保存する</button>
+              <button id="course-reset" class="button-quiet" type="button">入力をクリア</button>
+              <button id="course-delete" class="button-quiet course-delete" type="button" hidden>このコースを削除</button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </main>
+  </div>
+  <noscript>
+    <style>#auth-gate { display: none !important; }</style>
+    <p class="gate">施術コース管理の表示にはJavaScriptが必要です。</p>
+  </noscript>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/service-courses.js"></script>
+</body>
+</html>

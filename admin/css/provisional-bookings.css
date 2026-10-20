@@ -1,0 +1,149 @@
+.provisional-page select,
+.provisional-page textarea {
+  font: inherit;
+}
+
+.provisional-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+}
+
+.provisional-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.provisional-filters .button-quiet,
+.provisional-toolbar > .button-quiet {
+  min-height: 2.4rem;
+  padding: 0.4rem 0.75rem;
+}
+
+.provisional-filters .button-quiet[aria-pressed="true"] {
+  color: var(--ivory);
+  background: var(--brown);
+  border-color: var(--brown);
+}
+
+.provisional-page .patient-form h3 {
+  margin: 1.4rem 0 0.6rem;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
+.provisional-facts {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0;
+}
+
+.provisional-facts div {
+  min-width: 0;
+}
+
+.provisional-facts dt {
+  color: var(--brown-soft);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+}
+
+.provisional-facts dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.provisional-side {
+  margin-top: 1.2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--gold-soft);
+}
+
+.provisional-choice {
+  margin: 0.8rem 0 0;
+  padding: 0.75rem 0.85rem 0.9rem;
+  border: 1px solid var(--gold-soft);
+}
+
+.provisional-choice legend {
+  padding: 0 0.3rem;
+  color: var(--brown-soft);
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+}
+
+.provisional-choice label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+}
+
+.provisional-choice input {
+  width: 1.1rem;
+  min-height: 1.1rem;
+}
+
+.provisional-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin-top: 0.8rem;
+}
+
+.provisional-check input {
+  width: 1.15rem;
+  min-height: 1.15rem;
+  margin-top: 0.35rem;
+}
+
+.provisional-compare {
+  display: grid;
+  gap: 0.7rem;
+  margin-top: 0.8rem;
+}
+
+@media (min-width: 720px) {
+  .provisional-compare {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.provisional-compare article {
+  min-width: 0;
+  padding: 0.75rem 0.8rem;
+  background: rgba(255, 253, 249, 0.88);
+  border: 1px solid var(--gold-soft);
+}
+
+.provisional-compare h4 {
+  margin: 0 0 0.35rem;
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+
+.provisional-compare p {
+  color: var(--brown-soft);
+  font-size: 0.84rem;
+  white-space: pre-line;
+}
+
+.provisional-page button.patient-item {
+  font: inherit;
+  text-align: left;
+  appearance: none;
+}
+
+.provisional-page .submit:disabled,
+.provisional-page .button-quiet:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}

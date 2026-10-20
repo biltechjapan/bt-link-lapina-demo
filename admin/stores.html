@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <meta http-equiv="Cache-Control" content="no-store">
+  <meta name="theme-color" content="#fbf7f1">
+  <title>店舗管理｜Lapina</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <div id="auth-gate" class="gate">
+    <p>確認しています…</p>
+  </div>
+  <div id="app" class="admin-app" hidden>
+    <header class="admin-header">
+      <a class="brand" href="../index.html">
+        <img src="../images/lapina-logo.png" alt="Lapina ラピナ" width="1927" height="816">
+      </a>
+      <div class="header-actions">
+        <a class="header-link" href="index.html">管理トップ</a>
+        <button id="logout-button" class="logout" type="button">ログアウト</button>
+      </div>
+    </header>
+    <main class="admin-main" id="content">
+      <header class="page-heading">
+        <p class="kicker">Stores</p>
+        <h1>店舗管理</h1>
+        <p class="lead">Lapina（ラピナ）管理画面 Ver1.09</p>
+        <p class="session">ログイン中：<span id="admin-email"></span></p>
+      </header>
+
+      <p class="patient-caution store-note">休業にしても、予約カレンダーと営業時間は変わりません。公開予約では、休業中の店舗を選べなくなります。</p>
+      <p id="page-message" class="form-message" role="status"></p>
+
+      <section class="store-list" aria-labelledby="list-title">
+        <h2 id="list-title">店舗</h2>
+        <p id="store-empty" class="patient-empty" hidden>登録されている店舗はありません。</p>
+        <div id="store-list" class="patient-items"></div>
+      </section>
+
+      <section id="confirm-panel" class="store-confirm" hidden aria-labelledby="confirm-title">
+        <h2 id="confirm-title">営業状態の確認</h2>
+        <p id="confirm-text"></p>
+        <p id="confirm-message" class="form-message" role="alert"></p>
+        <div class="patient-actions">
+          <button id="confirm-run" class="submit" type="button">変更する</button>
+          <button id="confirm-back" class="button-quiet" type="button">戻る</button>
+        </div>
+      </section>
+    </main>
+  </div>
+  <noscript>
+    <style>#auth-gate { display: none !important; }</style>
+    <p class="gate">店舗管理の表示にはJavaScriptが必要です。</p>
+  </noscript>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/stores.js"></script>
+</body>
+</html>

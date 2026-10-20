@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <meta http-equiv="Cache-Control" content="no-store">
+  <meta name="theme-color" content="#fbf7f1">
+  <title>仮予約管理｜Lapina</title>
+  <link rel="stylesheet" href="css/admin.css">
+  <link rel="stylesheet" href="css/provisional-bookings.css">
+</head>
+<body>
+  <div id="auth-gate" class="gate">
+    <p>確認しています…</p>
+  </div>
+  <div id="app" class="admin-app" hidden>
+    <header class="admin-header">
+      <a class="brand" href="../index.html">
+        <img src="../images/lapina-logo.png" alt="Lapina ラピナ" width="1927" height="816">
+      </a>
+      <div class="header-actions">
+        <a class="header-link" href="index.html">管理トップ</a>
+        <button id="logout-button" class="logout" type="button">ログアウト</button>
+      </div>
+    </header>
+    <main class="admin-main provisional-page" id="content">
+      <header class="page-heading">
+        <p class="kicker">Provisional</p>
+        <h1>仮予約管理</h1>
+        <p class="lead">Lapina（ラピナ）管理画面 Ver1.09</p>
+        <p class="session">ログイン中：<span id="admin-email"></span></p>
+      </header>
+
+      <div class="provisional-toolbar">
+        <div class="provisional-filters" role="group" aria-label="受付状態">
+          <button type="button" class="button-quiet" data-status="pending">確認待ち</button>
+          <button type="button" class="button-quiet" data-status="approved">承認済み</button>
+          <button type="button" class="button-quiet" data-status="declined">見送り</button>
+          <button type="button" class="button-quiet" data-status="expired">期限切れ</button>
+          <button type="button" class="button-quiet" data-status="all">すべて</button>
+        </div>
+        <button id="reload-button" class="button-quiet" type="button">再読み込み</button>
+      </div>
+      <p id="page-message" class="form-message" role="alert"></p>
+
+      <div class="patient-layout">
+        <section class="patient-list" aria-labelledby="list-title">
+          <h2 id="list-title">仮予約一覧</h2>
+          <div id="booking-list" class="patient-items"></div>
+        </section>
+
+        <section class="patient-form appt-form" aria-labelledby="detail-title">
+          <h2 id="detail-title">仮予約の詳細</h2>
+          <p id="detail-empty" class="patient-empty">一覧から仮予約を選んでください。</p>
+          <div id="detail" hidden>
+            <dl id="detail-facts" class="provisional-facts"></dl>
+            <section class="provisional-side" aria-labelledby="same-day-title">
+              <h3 id="same-day-title">同じ日の予約</h3>
+              <p class="patient-meta">重なっているかどうかは、承認時にデータベースが判定します。</p>
+              <div id="same-day" class="patient-items"></div>
+            </section>
+
+            <div id="action-panel">
+              <section id="approve-panel" aria-labelledby="approve-title">
+                <h3 id="approve-title">承認</h3>
+                <p class="patient-caution">既存の患者を選んでも、登録済みの氏名、ふりがな、電話番号、メールは変更されません。</p>
+                <fieldset class="provisional-choice">
+                  <legend>患者の扱い</legend>
+                  <label>
+                    <input type="radio" name="patient-mode" value="existing" checked>
+                    <span>既存の患者と照合する</span>
+                  </label>
+                  <label>
+                    <input type="radio" name="patient-mode" value="new">
+                    <span>新しい患者として登録する</span>
+                  </label>
+                </fieldset>
+
+                <div id="existing-patient">
+                  <div class="field">
+                    <label for="patient-search">患者検索</label>
+                    <input id="patient-search" type="search" placeholder="患者番号・氏名・電話番号" autocomplete="off">
+                  </div>
+                  <div id="patient-results" class="patient-items"></div>
+                  <div id="patient-compare" class="provisional-compare" hidden></div>
+                  <label id="identity-label" class="provisional-check" hidden>
+                    <input id="identity-confirm" type="checkbox">
+                    <span>仮予約と患者の違いを確認しました。患者情報は変更しません。</span>
+                  </label>
+                </div>
+
+                <div id="new-patient" hidden>
+                  <p class="patient-meta">登録時に自動発行</p>
+                </div>
+
+                <div class="field">
+                  <label for="treatment-type">施術区分</label>
+                  <select id="treatment-type">
+                    <option value="">選択してください</option>
+                    <option value="massage">マッサージ</option>
+                    <option value="acupuncture">鍼</option>
+                    <option value="moxibustion">灸</option>
+                    <option value="combined">併用</option>
+                    <option value="other">その他</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="payment-type">支払区分</label>
+                  <select id="payment-type">
+                    <option value="">選択してください</option>
+                    <option value="insurance">保険</option>
+                    <option value="private">自費</option>
+                  </select>
+                </div>
+                <div class="appt-actions">
+                  <button id="approve-review" class="submit" type="button">承認内容を確認する</button>
+                </div>
+              </section>
+
+              <section id="decline-panel" aria-labelledby="decline-title">
+                <h3 id="decline-title">見送り</h3>
+                <div class="field">
+                  <label for="decline-reason">見送り理由（任意）</label>
+                  <textarea id="decline-reason" maxlength="500"></textarea>
+                </div>
+                <div class="appt-actions">
+                  <button id="decline-review" class="button-quiet" type="button">見送り内容を確認する</button>
+                </div>
+              </section>
+            </div>
+
+            <section id="confirm-panel" hidden aria-labelledby="confirm-title">
+              <h3 id="confirm-title">実行内容の確認</h3>
+              <dl id="confirm-facts" class="provisional-facts"></dl>
+              <div class="appt-actions">
+                <button id="confirm-back" class="button-quiet" type="button">入力に戻る</button>
+                <button id="confirm-run" class="submit" type="button">実行する</button>
+              </div>
+            </section>
+            <p id="detail-message" class="form-message" role="alert"></p>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+  <noscript>
+    <style>#auth-gate { display: none !important; }</style>
+    <p class="gate">管理画面の表示にはJavaScriptが必要です。</p>
+  </noscript>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/provisional-bookings.js"></script>
+</body>
+</html>

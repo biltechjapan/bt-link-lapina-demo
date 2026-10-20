@@ -1,0 +1,1161 @@
+:root {
+  --ivory: #fbf7f1;
+  --ivory-deep: #f3ece3;
+  --beige: #e7dccb;
+  --brown: #3e2c24;
+  --brown-soft: #6d5648;
+  --gold: #b89a6b;
+  --gold-soft: rgba(184, 154, 107, 0.45);
+  --sage: #8ea08a;
+  --sage-deep: #4d624b;
+  --header-h: 6.6rem;
+  --serif:
+    "Palatino Linotype", "Times New Roman", "Yu Mincho", "YuMincho",
+    "Hiragino Mincho ProN", "Hiragino Mincho Pro", serif;
+  --sans:
+    "Yu Gothic", "YuGothic", "Hiragino Sans", "Hiragino Kaku Gothic ProN",
+    "Meiryo", sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: clip;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--ivory);
+  color: var(--brown);
+  font-family: var(--sans);
+  font-size: 1rem;
+  line-height: 1.85;
+  line-break: strict;
+}
+
+body,
+h1,
+h2,
+p,
+ul,
+dl,
+dd,
+figure {
+  margin: 0;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a,
+button {
+  touch-action: manipulation;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+::selection {
+  background: #e7d7bc;
+  color: var(--brown);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: 0.6rem;
+  z-index: 50;
+  padding: 0.45rem 0.8rem;
+  background: var(--ivory);
+  color: var(--brown);
+  border: 1px solid var(--gold-soft);
+  transform: translateY(-160%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+.sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.wrap {
+  width: min(100% - 2.5rem, 68rem);
+  margin-inline: auto;
+}
+
+.narrow {
+  width: min(100% - 2.5rem, 40rem);
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.15rem 1rem;
+  min-height: var(--header-h);
+  padding: 0.7rem 1.25rem 0.45rem;
+  background: rgba(251, 247, 241, 0.94);
+  border-top: 3px solid #c6b08a;
+  border-bottom: 1px solid var(--gold-soft);
+  backdrop-filter: blur(12px);
+}
+
+.brand {
+  display: inline-flex;
+  color: var(--brown);
+}
+
+.brand-name {
+  display: flex;
+  flex-direction: column;
+  line-height: 1;
+}
+
+.brand-mark,
+.brand img {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+}
+
+.brand img {
+  height: 2.4rem;
+  width: auto;
+}
+
+.brand-kana {
+  margin-top: 0.28rem;
+  padding-left: 0.28em;
+  color: var(--brown-soft);
+  font-size: 0.62rem;
+  letter-spacing: 0.42em;
+}
+
+.site-nav {
+  flex: 1 0 100%;
+}
+
+.site-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 1rem;
+}
+
+.site-nav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.25rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+}
+
+.site-nav a[aria-current="true"] {
+  color: var(--sage-deep);
+  box-shadow: inset 0 -1px 0 var(--gold);
+}
+
+.hero {
+  position: relative;
+  padding: 3.25rem 0 3.75rem;
+  background:
+    radial-gradient(
+      ellipse at 85% 30%,
+      rgba(196, 174, 134, 0.18),
+      transparent 52%
+    ),
+    radial-gradient(
+      ellipse at 8% 92%,
+      rgba(143, 160, 138, 0.14),
+      transparent 46%
+    );
+}
+
+.hero-grid {
+  display: grid;
+  gap: 2.25rem;
+  justify-items: center;
+  text-align: center;
+}
+
+.hero-grid > *,
+.about-grid > * {
+  min-width: 0;
+}
+
+.hero-copy {
+  max-width: 36rem;
+}
+
+.kicker {
+  color: var(--sage-deep);
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  line-height: 1.6;
+}
+
+.section-heading .kicker,
+.hero-copy .kicker {
+  padding-left: 0.28em;
+}
+
+.hero h1 {
+  margin-top: 0.85rem;
+  padding-left: 0.12em;
+  font-family: var(--serif);
+  font-size: clamp(3.4rem, 16vw, 6.5rem);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 0.95;
+}
+
+.hero-kana {
+  margin-top: 0.85rem;
+  padding-left: 0.5em;
+  color: var(--brown-soft);
+  font-size: 0.82rem;
+  letter-spacing: 0.5em;
+}
+
+.hero-lead {
+  margin-inline: auto;
+  font-family: var(--serif);
+  font-size: clamp(1.02rem, 2.6vw, 1.4rem);
+  letter-spacing: 0.06em;
+  line-height: 2;
+}
+
+.rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  width: 6.5rem;
+  margin: 1.15rem auto 1.05rem;
+}
+
+.rule::before,
+.rule::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--gold);
+}
+
+.rule span {
+  width: 5px;
+  height: 5px;
+  border: 1px solid var(--gold);
+  transform: rotate(45deg);
+}
+
+.hero-visual {
+  position: relative;
+  width: min(100%, 16.5rem);
+  color: var(--brown);
+}
+
+.profile {
+  display: block;
+  width: 100%;
+  height: auto;
+  opacity: 0.78;
+}
+
+.hero-leaf {
+  position: absolute;
+  left: -58%;
+  bottom: 0;
+  width: 34%;
+  color: var(--sage-deep);
+  opacity: 0.42;
+  pointer-events: none;
+}
+
+.corner-art {
+  position: absolute;
+  width: 7.5rem;
+  color: var(--sage-deep);
+  opacity: 0.28;
+  pointer-events: none;
+}
+
+.corner-art-tr {
+  top: -1.5rem;
+  right: -2rem;
+  transform: rotate(18deg);
+}
+
+.corner-art-bl {
+  left: -3.4rem;
+  bottom: -3.2rem;
+  width: 7.5rem;
+  opacity: 0.2;
+}
+
+.corner-art-mr {
+  top: 18%;
+  right: -3rem;
+  width: 9rem;
+  opacity: 0.2;
+}
+
+.has-art {
+  position: relative;
+  overflow: hidden;
+}
+
+.side-label {
+  display: none;
+}
+
+.section {
+  position: relative;
+  padding: 4.5rem 0;
+}
+
+.band {
+  background: var(--ivory-deep);
+}
+
+.section-heading {
+  margin-bottom: 1.75rem;
+  text-align: center;
+}
+
+.section-heading h2 {
+  margin-top: 0.45rem;
+  padding-left: 0.12em;
+  font-family: var(--serif);
+  font-size: clamp(1.65rem, 4.4vw, 2.15rem);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  line-height: 1.45;
+}
+
+.lead {
+  color: var(--brown-soft);
+  font-size: 0.95rem;
+  line-height: 2;
+  text-align: center;
+}
+
+.about-grid {
+  display: grid;
+  gap: 2rem;
+}
+
+.prose p {
+  font-size: 0.98rem;
+  line-height: 2.05;
+}
+
+.prose p + p {
+  margin-top: 1.05rem;
+}
+
+.visual-frame {
+  display: grid;
+  place-items: center;
+  width: min(100%, 18rem);
+  aspect-ratio: 4 / 5;
+  margin-inline: auto;
+  border: 1px solid var(--gold-soft);
+  background: rgba(251, 247, 241, 0.72);
+  color: var(--sage-deep);
+}
+
+.visual-frame svg {
+  width: 58%;
+  height: auto;
+}
+
+.visual-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.facts {
+  margin-top: 1.75rem;
+}
+
+.facts-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.05rem 0;
+  border-bottom: 1px solid rgba(62, 44, 36, 0.12);
+}
+
+.facts-row:first-child {
+  border-top: 1px solid rgba(62, 44, 36, 0.12);
+}
+
+.facts dt {
+  font-size: 0.95rem;
+  letter-spacing: 0.12em;
+}
+
+.facts dd {
+  margin: 0;
+  color: var(--sage-deep);
+  font-family: var(--serif);
+  font-size: 1.02rem;
+  letter-spacing: 0.16em;
+}
+
+.reserve-panel {
+  margin-top: 0.25rem;
+  padding: 2.4rem 1.25rem 2.2rem;
+  text-align: center;
+  background: rgba(251, 247, 241, 0.78);
+  border: 1px solid var(--gold-soft);
+}
+
+.reserve-panel .rule {
+  margin-top: 0;
+}
+
+.reserve-status {
+  margin-bottom: 1rem;
+  font-family: var(--serif);
+  font-size: clamp(1.45rem, 4.5vw, 1.9rem);
+  letter-spacing: 0.12em;
+  line-height: 1.6;
+}
+
+.site-footer {
+  padding: 2.4rem 0 2.8rem;
+  text-align: center;
+  background: var(--ivory-deep);
+  border-top: 1px solid var(--gold-soft);
+}
+
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.65rem 1.2rem;
+  margin-bottom: 1.3rem;
+}
+
+.footer-nav a {
+  color: var(--brown-soft);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+}
+
+.footer-name {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  letter-spacing: 0.14em;
+}
+
+.footer-note {
+  margin-top: 0.25rem;
+  color: var(--brown-soft);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --header-h: 4.25rem;
+  }
+
+  .wrap,
+  .narrow {
+    width: min(100% - 4rem, 68rem);
+  }
+
+  .narrow {
+    width: min(100% - 4rem, 40rem);
+  }
+
+  .site-header {
+    flex-wrap: nowrap;
+    align-items: center;
+    padding-bottom: 0.7rem;
+  }
+
+  .site-nav {
+    flex: 0 1 auto;
+  }
+
+  .site-nav ul {
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    gap: 0.25rem 1.5rem;
+  }
+
+  .site-nav a {
+    min-height: 0;
+    padding: 0.35rem 0;
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
+  }
+
+  .section {
+    padding: 6rem 0;
+  }
+
+  section[id] {
+    scroll-margin-top: 5.25rem;
+  }
+
+  .hero {
+    display: flex;
+    align-items: center;
+    padding: 3.5rem 0 4rem;
+  }
+
+  .hero-grid {
+    grid-template-columns: minmax(0, 1.12fr) minmax(14rem, 0.88fr);
+    align-items: center;
+    justify-items: start;
+    width: min(100% - 4rem, 68rem);
+    text-align: left;
+  }
+
+  .hero-copy .kicker,
+  .hero h1 {
+    padding-left: 0;
+  }
+
+  .hero-kana {
+    padding-left: 0.15em;
+  }
+
+  .hero .rule {
+    margin-left: 0;
+  }
+
+  .hero-lead {
+    margin-inline: 0;
+  }
+
+  .hero-visual {
+    justify-self: end;
+    width: min(100%, 22rem);
+  }
+
+  .about-grid {
+    grid-template-columns: minmax(14rem, 0.8fr) minmax(0, 1.2fr);
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .about-grid .visual-frame {
+    order: -1;
+    width: min(100%, 20rem);
+    margin-inline: 0;
+  }
+
+  .reserve-panel {
+    padding: 3rem 2.5rem 2.7rem;
+  }
+}
+
+@media (min-width: 1100px) {
+  .hero {
+    min-height: calc(100svh - var(--header-h));
+    padding: 2rem 0 3rem;
+  }
+
+  .hero-lead br {
+    display: none;
+  }
+
+  .hero-visual {
+    width: min(100%, 26rem);
+  }
+
+  .about-grid {
+    gap: 4.5rem;
+  }
+
+  .about-grid .visual-frame {
+    width: min(100%, 22rem);
+  }
+}
+
+@media (min-width: 1280px) {
+  .side-label {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 1.5rem;
+    margin: 0;
+    color: var(--sage-deep);
+    font-family: var(--serif);
+    font-size: 0.75rem;
+    letter-spacing: 0.42em;
+    writing-mode: vertical-rl;
+    transform: translateY(-50%);
+    opacity: 0.85;
+  }
+}
+
+@media (hover: hover) {
+  .site-nav a:hover,
+  .footer-nav a:hover,
+  .brand:hover {
+    color: var(--sage-deep);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .site-nav a,
+  .footer-nav a,
+  .brand {
+    transition: color 0.2s ease;
+  }
+}
+
+@media (max-width: 767px) {
+  section[id] {
+    scroll-margin-top: 7.5rem;
+  }
+}
+
+/* 神明店の情報と正式ブランド画像 */
+.site-header {
+  align-items: center;
+}
+.brand img {
+  width: 124px;
+  height: auto;
+}
+.hero-renewed {
+  min-height: 0;
+  background: #fcfaf4 url("../images/lapina-line-art.jpg") center/cover
+    no-repeat;
+  padding: 4.5rem 0 5rem;
+}
+.hero-renewed .hero-grid {
+  display: block;
+  text-align: left;
+}
+.hero-renewed .hero-copy {
+  max-width: 31rem;
+}
+.hero-renewed h1 {
+  padding: 0;
+  margin: 1.2rem 0 1.5rem;
+}
+.hero-renewed h1 img {
+  width: min(100%, 390px);
+}
+.hero-description {
+  margin-top: 1rem;
+  color: var(--brown-soft);
+  font-size: 0.95rem;
+}
+.button {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 48px;
+  padding: 0.75rem 1.7rem;
+  background: var(--brown);
+  color: #fff;
+  border-radius: 3px;
+  margin-top: 1.6rem;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+}
+.hero-small {
+  margin-top: 0.65rem;
+  color: var(--brown-soft);
+  font-size: 0.8rem;
+}
+.course-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+.course {
+  padding: 1.8rem;
+  border: 1px solid var(--gold-soft);
+  background: #fffdf8;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+.course-caption {
+  color: var(--sage-deep);
+  font-size: 0.85rem;
+}
+.course h3 {
+  font-family: var(--serif);
+  font-size: 2.5rem;
+  font-weight: 400;
+  margin: 0.65rem 0 0;
+  line-height: 1.4;
+}
+.course h3 span {
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  margin-left: 0.4rem;
+}
+.course-price {
+  font-size: 1.6rem;
+  color: var(--brown-soft);
+}
+.course-price span {
+  font-size: 0.9rem;
+  margin-left: 0.3rem;
+}
+.course ul {
+  margin: 1rem 0 1.5rem;
+  font-size: 0.9rem;
+}
+.course li {
+  padding: 0.18rem 0;
+}
+.course li::before {
+  content: "・";
+  color: var(--gold);
+}
+.course-link {
+  margin-top: auto;
+  font-size: 0.85rem;
+  color: var(--sage-deep);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.menu-notes {
+  margin-top: 1.5rem;
+  font-size: 0.85rem;
+  color: var(--brown-soft);
+}
+.facts-row {
+  align-items: flex-start;
+}
+.facts dt {
+  flex: 0 0 5.5rem;
+  letter-spacing: 0;
+}
+.facts dd {
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  letter-spacing: 0;
+  flex: 1;
+}
+.access-note {
+  font-size: 0.85rem;
+  color: var(--brown-soft);
+  margin-top: 1rem;
+}
+.line-qr {
+  width: 160px;
+  margin: 1.4rem auto;
+}
+.small-note {
+  font-size: 0.83rem;
+  color: var(--brown-soft);
+  margin-top: 1rem;
+}
+.reservation-steps {
+  text-align: left;
+  padding-left: 1.5rem;
+  margin: 1.5rem auto;
+  max-width: 26rem;
+}
+.reservation-steps li {
+  padding: 0.3rem 0;
+}
+.reservation-important {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.request-example {
+  background: var(--ivory-deep);
+  text-align: left;
+  padding: 1rem 1.3rem;
+  margin-top: 1rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+.section {
+  padding: 4rem 0;
+}
+@media (min-width: 1100px) {
+  .hero-renewed {
+    min-height: 0;
+    padding: 4.5rem 0 5rem;
+  }
+  .course-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .course {
+    padding: 1.35rem;
+  }
+  .hero-renewed .hero-lead br {
+    display: block;
+  }
+}
+@media (max-width: 767px) {
+  .hero-renewed {
+    background-size: auto 100%;
+    background-position: 68% center;
+    padding: 2.5rem 0 3rem;
+  }
+  .hero-renewed .hero-copy {
+    max-width: none;
+    background: rgba(252, 250, 244, 0.88);
+    padding: 1.4rem;
+    border-radius: 8px;
+  }
+  .hero-renewed h1 img {
+    width: 260px;
+    max-width: 100%;
+  }
+  .hero-renewed .hero-lead {
+    margin: 0;
+  }
+  .course-grid {
+    grid-template-columns: 1fr;
+  }
+  .course {
+    padding: 1.4rem;
+  }
+  .site-nav ul {
+    justify-content: space-between;
+    gap: 0.15rem 0.5rem;
+  }
+  .site-nav a {
+    font-size: 0.75rem;
+    letter-spacing: 0;
+    min-height: 44px;
+  }
+  .section {
+    padding: 3rem 0;
+  }
+  .facts-row {
+    gap: 0.65rem;
+  }
+  .facts dt {
+    flex-basis: 5rem;
+  }
+  .reserve-panel {
+    padding: 1.6rem 1.2rem;
+  }
+}
+
+/* 背景を残し、中央上部にロゴと文章を配置 */
+.hero.hero-renewed {
+  align-items: flex-start;
+  padding: 3rem 0 18rem;
+}
+
+.hero-renewed .hero-copy {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  align-items: center;
+  gap: 1rem 2rem;
+  max-width: 48rem;
+  margin-inline: auto;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  text-align: center;
+}
+
+.hero-renewed .kicker,
+.hero-renewed .hero-description,
+.hero-renewed .button,
+.hero-renewed .hero-small {
+  grid-column: 1 / -1;
+}
+
+.hero-renewed h1 {
+  margin: 0;
+}
+
+.hero-renewed h1 img {
+  width: 100%;
+}
+
+.hero-renewed .hero-lead {
+  margin: 0;
+}
+
+.hero-renewed .hero-description {
+  margin-top: 0;
+}
+
+.hero-renewed .button {
+  justify-self: center;
+  margin-top: 0.5rem;
+}
+
+.hero-renewed .hero-small {
+  margin-top: 0;
+}
+
+@media (max-width: 767px) {
+  .hero.hero-renewed {
+    padding: 2rem 0 360px;
+    background-size: auto 340px;
+    background-position: right bottom;
+  }
+
+  .hero-renewed .hero-copy {
+    grid-template-columns: 1fr;
+    padding: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .hero-renewed h1 img {
+    width: 240px;
+    margin-inline: auto;
+  }
+}
+/* パソコンではロゴだけ左に配置 */
+@media (min-width: 1100px) {
+  .hero-renewed .hero-grid {
+    position: relative;
+  }
+
+  .hero-renewed h1 {
+    position: absolute;
+    left: 0;
+    top: 2.8rem;
+    width: 320px;
+  }
+
+  .hero-renewed .hero-lead {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}
+/* キャッチコピーを中央に配置 */
+.hero-renewed .hero-lead {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  justify-self: center;
+  text-align: center;
+}
+/* 店舗名をロゴの上に配置 */
+@media (min-width: 1100px) {
+  .hero-renewed .hero-copy > .kicker {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 320px;
+    padding: 0;
+    text-align: center;
+    letter-spacing: 0.12em;
+  }
+}
+.hero-renewed .hero-lead {
+  grid-row: 2;
+}
+
+.hero-renewed .hero-description {
+  grid-row: 3;
+}
+/* 中央の文章・予約ボタンの順番を固定 */
+.hero-renewed .hero-lead {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+
+.hero-renewed .hero-description {
+  grid-column: 1 / -1;
+  grid-row: 3;
+}
+
+.hero-renewed .hero-copy > .button {
+  grid-column: 1 / -1;
+  grid-row: 4;
+}
+
+.hero-renewed .hero-small {
+  grid-column: 1 / -1;
+  grid-row: 5;
+}
+.hero-renewed .hero-copy > .kicker {
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  line-height: 1.8;
+}
+
+/* 店舗情報の右側に地図・入口・駐車場案内を配置 */
+.access-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2rem;
+  align-items: start;
+}
+
+.access-grid > * {
+  min-width: 0;
+}
+
+.access-details .facts {
+  margin-top: 0;
+}
+
+.access-map {
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--gold-soft);
+  border-radius: 8px;
+}
+
+.access-map iframe {
+  display: block;
+  width: 100%;
+  height: 260px;
+  border: 0;
+}
+
+.access-location .access-map-button {
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  margin: 1rem auto 0;
+}
+
+.access-parking {
+  width: 100%;
+  margin: 1.5rem 0 0;
+  color: var(--brown-soft);
+  font-size: 0.9rem;
+  line-height: 1.9;
+}
+
+.access-parking h3 {
+  margin: 0 0 0.6rem;
+  color: var(--brown);
+  font-size: 1.05rem;
+  font-weight: 500;
+}
+
+.access-parking p + p {
+  margin-top: 0.8rem;
+}
+
+@media (min-width: 900px) {
+  .access-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 3rem;
+  }
+
+  .access-map iframe {
+    height: 280px;
+  }
+}
+
+@media (max-width: 767px) {
+  .access-map iframe {
+    height: 240px;
+  }
+}
+/* スマートフォンのトップ表示順 */
+@media (max-width: 767px) {
+  .hero-renewed .hero-copy > .kicker {
+    grid-row: 1;
+  }
+
+  .hero-renewed .hero-copy > h1 {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .hero-renewed .hero-lead {
+    grid-row: 3;
+  }
+
+  .hero-renewed .hero-description {
+    grid-row: 4;
+  }
+
+  .hero-renewed .hero-copy > .button {
+    grid-row: 5;
+  }
+
+  .hero-renewed .hero-small {
+    grid-row: 6;
+  }
+}
+
+/* 説明文とロゴの重なりを解消 */
+@media (min-width: 1100px) {
+  .hero-renewed .hero-description {
+    padding-left: 6rem;
+    box-sizing: border-box;
+  }
+}
+
+/* スマートフォンのサロン紹介見出し */
+@media screen and (max-width: 767px) {
+  #about .section-heading h2 {
+    font-size: 20px !important;
+    letter-spacing: 0 !important;
+    line-height: 1.5;
+  }
+}

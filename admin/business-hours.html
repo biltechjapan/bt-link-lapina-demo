@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <meta http-equiv="Cache-Control" content="no-store">
+  <meta name="theme-color" content="#fbf7f1">
+  <title>営業時間｜Lapina</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <div id="auth-gate" class="gate">
+    <p>確認しています…</p>
+  </div>
+  <div id="app" class="admin-app" hidden>
+    <header class="admin-header business-header">
+      <a class="brand" href="../index.html">
+        <img src="../images/lapina-logo.png" alt="Lapina ラピナ" width="1927" height="816">
+      </a>
+      <div class="header-actions">
+        <a class="header-link" href="index.html">管理トップ</a>
+        <button id="logout-button" class="logout" type="button">ログアウト</button>
+      </div>
+    </header>
+    <main class="admin-main hours-screen" id="content">
+      <header class="page-heading">
+        <p class="kicker">Hours</p>
+        <h1>営業時間</h1>
+        <p class="lead">Lapina（ラピナ）管理画面 Ver1.09</p>
+        <p class="session">ログイン中：<span id="admin-email"></span></p>
+      </header>
+
+      <nav class="business-nav" aria-label="営業設定">
+        <a class="business-nav-link is-current" href="business-hours.html" aria-current="page">営業時間</a>
+        <a class="business-nav-link" href="business-calendar.html">休業日</a>
+      </nav>
+
+      <p class="patient-caution business-note">休業にする曜日は、開店・閉店・最終受付を空にして保存します。準備時間が0分のときは、終了時刻と次の開始時刻が同じでも間隔なしとして扱います。</p>
+      <p id="page-message" class="form-message" role="status"></p>
+
+      <form id="hours-form" method="post" action="business-hours.html">
+        <section class="hours-settings" aria-labelledby="settings-title">
+          <h2 id="settings-title">予約の間隔</h2>
+          <div class="hours-settings-grid">
+            <div class="field">
+              <label for="slot-minutes">予約開始間隔（分）</label>
+              <input id="slot-minutes" name="slot_minutes" type="text" inputmode="numeric" required autocomplete="off">
+            </div>
+            <div class="field">
+              <label for="buffer-minutes">施術後の準備時間（分）</label>
+              <input id="buffer-minutes" name="buffer_minutes" type="text" inputmode="numeric" required autocomplete="off">
+            </div>
+          </div>
+        </section>
+
+        <section aria-labelledby="weekday-title">
+          <h2 id="weekday-title">曜日ごとの営業</h2>
+          <div class="hours-days">
+            <article class="hours-day is-sun">
+              <h3 class="hours-weekday">日曜日</h3>
+              <div class="field check-field">
+                <input id="day-open-0" type="checkbox">
+                <label for="day-open-0">営業する</label>
+              </div>
+              <p id="day-state-0" class="business-badge is-closed">休業</p>
+              <div class="field">
+                <label for="day-opens-0">開店</label>
+                <input id="day-opens-0" type="time" step="60">
+              </div>
+              <div class="field">
+                <label for="day-closes-0">閉店</label>
+                <input id="day-closes-0" type="time" step="60">
+              </div>
+              <div class="field">
+                <label for="day-last-0">最終受付</label>
+                <input id="day-last-0" type="time" step="60">
+              </div>
+            </article>
+            <article class="hours-day">
+              <h3 class="hours-weekday">月曜日</h3>
+              <div class="field check-field">
+                <input id="day-open-1" type="checkbox">
+                <label for="day-open-1">営業する</label>
+              </div>
+              <p id="day-state-1" class="business-badge is-closed">休業</p>
+              <div class="field">
+                <label for="day-opens-1">開店</label>
+                <input id="day-opens-1" type="time" step="60">
+              </div>
+              <div class="field">
+                <label for="day-closes-1">閉店</label>
+                <input id="day-closes-1" type="time" step="60">
+              </div>
+              <div class="field">
+                <label for="day-last-1">最終受付</label>
+                <input id="day-last-1" type="time" step="60">
+              </div>
+            </article>
+            <article class="hours-day">
+              <h3 class="hours-weekday">火曜日</h3>
+              <div class="field check-field">
+                <input id="day-open-2" type="checkbox">
+                <label for="day-open-2">営業する</label>
+              </div>
+              <p id="day-state-2" class="business-badge is-closed">休業</p>
+              <div class="field">
+                <label for="day-opens-2">開店</label>
+                <input id="day-opens-2" type="time" step="60">
+              </div>
+              <div class="field">
+                <label for="day-closes-2">閉店</label>
+                <input id="day-closes-2" type="time" step="60">
+              </div>
+              <div class="field">
+                <label for="day-last-2">最終受付</label>
+                <input id="day-last-2" type="time" step="60">
+              </div>
+            </article>
+            <article class="hours-day">
+              <h3 class="hours-weekday">水曜日</h3>
+              <div class="field check-field">
+                <input id="day-open-3" type="checkbox">
+                <label for="day-open-3">営業する</label>
+              </div>
+              <p id="day-state-3" class="business-badge is-closed">休業</p>
+              <div class="field">
+                <label for="day-opens-3">開店</label>
+                <input id="day-opens-3" type="time" step="60">
+              </div>
+              <div class="field">
+                <label for="day-closes-3">閉店</label>
+                <input id="day-closes-3" type="time" step="60">
+              </div>
+              <div class="field">
+                <label for="day-last-3">最終受付</label>
+                <input id="day-last-3" type="time" step="60">
+              </div>
+            </article>
+            <article class="hours-day">
+              <h3 class="hours-weekday">木曜日</h3>
+              <div class="field check-field">
+                <input id="day-open-4" type="checkbox">
+                <label for="day-open-4">営業する</label>
+              </div>
+              <p id="day-state-4" class="business-badge is-closed">休業</p>
+              <div class="field">
+                <label for="day-opens-4">開店</label>
+                <input id="day-opens-4" type="time" step="60">
+              </div>
+              <div class="field">
+                <label for="day-closes-4">閉店</label>
+                <input id="day-closes-4" type="time" step="60">
+              </div>
+              <div class="field">
+                <label for="day-last-4">最終受付</label>
+                <input id="day-last-4" type="time" step="60">
+              </div>
+            </article>
+            <article class="hours-day">
+              <h3 class="hours-weekday">金曜日</h3>
+              <div class="field check-field">
+                <input id="day-open-5" type="checkbox">
+                <label for="day-open-5">営業する</label>
+              </div>
+              <p id="day-state-5" class="business-badge is-closed">休業</p>
+              <div class="field">
+                <label for="day-opens-5">開店</label>
+                <input id="day-opens-5" type="time" step="60">
+              </div>
+              <div class="field">
+                <label for="day-closes-5">閉店</label>
+                <input id="day-closes-5" type="time" step="60">
+              </div>
+              <div class="field">
+                <label for="day-last-5">最終受付</label>
+                <input id="day-last-5" type="time" step="60">
+              </div>
+            </article>
+            <article class="hours-day is-sat">
+              <h3 class="hours-weekday">土曜日</h3>
+              <div class="field check-field">
+                <input id="day-open-6" type="checkbox">
+                <label for="day-open-6">営業する</label>
+              </div>
+              <p id="day-state-6" class="business-badge is-closed">休業</p>
+              <div class="field">
+                <label for="day-opens-6">開店</label>
+                <input id="day-opens-6" type="time" step="60">
+              </div>
+              <div class="field">
+                <label for="day-closes-6">閉店</label>
+                <input id="day-closes-6" type="time" step="60">
+              </div>
+              <div class="field">
+                <label for="day-last-6">最終受付</label>
+                <input id="day-last-6" type="time" step="60">
+              </div>
+            </article>
+          </div>
+        </section>
+
+        <div class="patient-actions">
+          <button id="hours-save" class="submit" type="submit">保存する</button>
+          <button id="hours-reload" class="button-quiet" type="button">再読み込み</button>
+        </div>
+      </form>
+    </main>
+  </div>
+  <noscript>
+    <style>#auth-gate { display: none !important; }</style>
+    <p class="gate">営業時間の表示にはJavaScriptが必要です。</p>
+  </noscript>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/business-hours.js"></script>
+</body>
+</html>

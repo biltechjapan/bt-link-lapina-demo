@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#fbf7f1">
+  <title>管理者ログイン｜Lapina</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <main class="auth-screen">
+    <section class="auth-card" aria-labelledby="login-title">
+      <a class="brand" href="../index.html">
+        <img src="../images/lapina-logo.png" alt="Lapina ラピナ" width="1927" height="816">
+      </a>
+      <p class="kicker">Admin</p>
+      <h1 id="login-title">管理者ログイン</h1>
+      <p class="lead">Lapina（ラピナ）管理画面 Ver1.09</p>
+      <form id="login-form" method="post" action="login.html">
+        <div class="field">
+          <label for="admin-email">メールアドレス</label>
+          <input id="admin-email" name="email" type="email" autocomplete="username" inputmode="email" required>
+        </div>
+        <div class="field">
+          <label for="admin-password">パスワード</label>
+          <input id="admin-password" name="password" type="password" autocomplete="current-password" required>
+        </div>
+        <p class="form-message" data-auth-message role="alert"></p>
+        <button class="submit" type="submit">ログイン</button>
+      </form>
+      <p class="back-link"><a href="../index.html">店舗サイトへ戻る</a></p>
+    </section>
+  </main>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

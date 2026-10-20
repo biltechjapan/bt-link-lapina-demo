@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <meta http-equiv="Cache-Control" content="no-store">
+  <meta name="theme-color" content="#fbf7f1">
+  <title>管理ダッシュボード｜Lapina</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <div id="auth-gate" class="gate">
+    <p>確認しています…</p>
+  </div>
+  <div id="app" class="admin-app" hidden>
+    <header class="admin-header">
+      <a class="brand" href="../index.html">
+        <img src="../images/lapina-logo.png" alt="Lapina ラピナ" width="1927" height="816">
+      </a>
+      <button id="logout-button" class="logout" type="button">ログアウト</button>
+    </header>
+    <main class="admin-main" id="content">
+      <header class="page-heading">
+        <p class="kicker">Admin</p>
+        <h1>管理ダッシュボード</h1>
+        <p class="lead">Lapina（ラピナ）管理画面 Ver1.09</p>
+        <p class="session">ログイン中：<span id="admin-email"></span></p>
+      </header>
+      <section aria-labelledby="menu-title">
+        <h2 id="menu-title">メニュー</h2>
+        <div class="menu-grid">
+          <a class="menu-card" href="appointments.html">
+            <span class="menu-title">予約管理</span>
+            <span class="menu-text">日付ごとの予約を確認し、登録や変更ができます。</span>
+          </a>
+          <a class="menu-card" href="provisional-bookings.html">
+            <span class="menu-title">仮予約管理</span>
+            <span class="menu-text">公開予約の仮予約を確認し、承認または見送りができます。</span>
+          </a>
+          <a class="menu-card" href="patients.html">
+            <span class="menu-title">患者管理</span>
+            <span class="menu-text">患者情報の確認、登録、変更ができます。</span>
+          </a>
+          <a class="menu-card" href="treatments.html">
+            <span class="menu-title">施術管理</span>
+            <span class="menu-text">施術記録と明細を確認し、登録や変更ができます。</span>
+          </a>
+          <a class="menu-card" href="service-courses.html">
+            <span class="menu-title">施術コース管理</span>
+            <span class="menu-text">コースの時間、税込料金、公開と予約受付を変更できます。</span>
+          </a>
+          <a class="menu-card" href="business-hours.html">
+            <span class="menu-title">営業時間・休業日管理</span>
+            <span class="menu-text">曜日の営業時間、予約間隔、休業日と特別営業を管理できます。</span>
+          </a>
+          <a class="menu-card" href="stores.html">
+            <span class="menu-title">店舗管理</span>
+            <span class="menu-text">店舗の営業と休業を切り替えられます。</span>
+          </a>
+          <a class="menu-card" href="visit-availability.html">
+            <span class="menu-title">訪問可能時間</span>
+            <span class="menu-text">訪問できる曜日と時間帯を登録できます。予約は作りません。</span>
+          </a>
+          <a class="menu-card" href="visit-series.html">
+            <span class="menu-title">定期訪問</span>
+            <span class="menu-text">最初の12週間を登録し、続きは同じ定期から作ります。</span>
+          </a>
+        </div>
+        <p id="feature-note" class="feature-note" role="status" hidden></p>
+      </section>
+      <p class="scope-note">患者・予約・施術記録の削除は行いません。確定済みの施術記録は、キャンセル以外の変更ができません。</p>
+    </main>
+  </div>
+  <noscript>
+    <style>#auth-gate { display: none !important; }</style>
+    <p class="gate">管理画面の表示にはJavaScriptが必要です。</p>
+  </noscript>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

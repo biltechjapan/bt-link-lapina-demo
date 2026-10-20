@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <meta http-equiv="Cache-Control" content="no-store">
+  <meta name="theme-color" content="#fbf7f1">
+  <title>休業日｜Lapina</title>
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <div id="auth-gate" class="gate">
+    <p>確認しています…</p>
+  </div>
+  <div id="app" class="admin-app" hidden>
+    <header class="admin-header business-header">
+      <a class="brand" href="../index.html">
+        <img src="../images/lapina-logo.png" alt="Lapina ラピナ" width="1927" height="816">
+      </a>
+      <div class="header-actions">
+        <a class="header-link" href="index.html">管理トップ</a>
+        <button id="logout-button" class="logout" type="button">ログアウト</button>
+      </div>
+    </header>
+    <main class="admin-main closure-screen" id="content">
+      <header class="page-heading">
+        <p class="kicker">Closures</p>
+        <h1>休業日</h1>
+        <p class="lead">Lapina（ラピナ）管理画面 Ver1.09</p>
+        <p class="session">ログイン中：<span id="admin-email"></span></p>
+      </header>
+
+      <nav class="business-nav" aria-label="営業設定">
+        <a class="business-nav-link" href="business-hours.html">営業時間</a>
+        <a class="business-nav-link is-current" href="business-calendar.html" aria-current="page">休業日</a>
+      </nav>
+
+      <p class="patient-caution business-note">祝日と振替休日は、内閣府の公式CSVから登録します。CSVに無い日付は計算して作りません。</p>
+      <p id="holiday-missing" class="business-alert" hidden>祝日データ未登録</p>
+      <p class="patient-caution">理由の表示を外しても、祝日・振替休日・臨時休業は予約枠では休業です。特別営業は、理由の表示にかかわらず営業として扱います。管理者メモはお客様に出しません。</p>
+      <p id="page-message" class="form-message" role="status"></p>
+
+      <section class="holiday-import" aria-labelledby="holiday-import-title">
+        <h2 id="holiday-import-title">祝日CSV取込</h2>
+        <p class="patient-caution">内閣府の「国民の祝日」CSV（UTF-8またはShift_JIS）を選び、基準年から5年の範囲で取込年を指定します。初期表示は2026年から2030年です。名称が「休日」の行は、同じCSVの祝日と祝日法の規則で振替休日か国民の休日かを区別します。どちらとも確定できない行は登録しません。CSVに無い年の祝日は作りません。登録済みの日付、臨時休業、特別営業、管理者メモは上書きしません。</p>
+        <div class="field holiday-base-field">
+          <label for="holiday-base-year">基準年</label>
+          <input id="holiday-base-year" type="number" min="1950" max="2096" step="1" value="2026" inputmode="numeric">
+        </div>
+        <fieldset class="holiday-years">
+          <legend>取込年（基準年から5年）</legend>
+          <div id="holiday-year-choices"></div>
+        </fieldset>
+        <div class="field">
+          <label for="holiday-file">CSVファイル</label>
+          <input id="holiday-file" type="file" accept=".csv,text/csv">
+        </div>
+        <div class="patient-actions">
+          <button id="holiday-preview" class="submit" type="button">内容を確認</button>
+          <button id="holiday-import" class="button-quiet" type="button" disabled>登録する</button>
+        </div>
+        <p class="patient-caution">登録は、データベースの準備と管理者権限の確認が終わるまで行えません。今は内容の確認だけできます。</p>
+        <p id="holiday-message" class="form-message" role="status"></p>
+        <p id="holiday-summary" class="holiday-summary" hidden></p>
+        <div id="holiday-year-summary-wrap" hidden>
+          <h3>年別の件数</h3>
+          <p class="patient-caution">未収録は、その年の日付がCSVに無い件数です。1の年は祝日を作りません。</p>
+          <div class="holiday-year-table">
+            <table class="closure-table">
+              <thead>
+                <tr>
+                  <th scope="col">年</th>
+                  <th scope="col">登録予定</th>
+                  <th scope="col">登録済み</th>
+                  <th scope="col">競合</th>
+                  <th scope="col">未収録</th>
+                </tr>
+              </thead>
+              <tbody id="holiday-year-body"></tbody>
+            </table>
+          </div>
+          <div id="holiday-year-cards" class="holiday-cards"></div>
+        </div>
+        <div id="holiday-errors" class="holiday-errors" hidden>
+          <h3>読み取れなかった行</h3>
+          <ul id="holiday-error-list"></ul>
+        </div>
+        <div id="holiday-preview-wrap" hidden>
+          <h3>取込内容</h3>
+          <div class="closure-table-wrap holiday-preview-table">
+            <table class="closure-table">
+              <thead>
+                <tr>
+                  <th scope="col">日付</th>
+                  <th scope="col">祝日名</th>
+                  <th scope="col">区分</th>
+                  <th scope="col">結果</th>
+                  <th scope="col">内容</th>
+                </tr>
+              </thead>
+              <tbody id="holiday-preview-body"></tbody>
+            </table>
+          </div>
+          <div id="holiday-preview-cards" class="holiday-cards"></div>
+        </div>
+      </section>
+
+      <section class="holiday-delete" aria-labelledby="holiday-delete-title">
+        <h2 id="holiday-delete-title">祝日一括削除</h2>
+        <p class="patient-caution">内閣府CSVから登録した祝日と振替休日だけを候補にします。手入力、臨時休業、特別営業、管理者メモ付き、出所が分からない行は候補にしません。チェックは最初から外しています。</p>
+        <div class="field holiday-base-field">
+          <label for="holiday-delete-year">対象年</label>
+          <select id="holiday-delete-year"></select>
+        </div>
+        <div class="patient-actions">
+          <button id="holiday-delete-preview" class="submit" type="button">削除候補を表示</button>
+          <button id="holiday-delete-run" class="button-quiet" type="button" disabled>選択した祝日を削除</button>
+        </div>
+        <p class="patient-caution">削除は、データベースの準備と管理者権限の確認が終わるまで行えません。</p>
+        <p id="holiday-delete-message" class="form-message" role="status"></p>
+        <p id="holiday-delete-count" class="holiday-summary" hidden></p>
+        <div id="holiday-delete-list" class="holiday-delete-list"></div>
+      </section>
+
+      <section class="closure-cal" aria-labelledby="cal-title">
+        <div class="closure-cal-head">
+          <button id="cal-prev" class="button-quiet" type="button">前の月</button>
+          <h2 id="cal-title">カレンダー</h2>
+          <button id="cal-next" class="button-quiet" type="button">次の月</button>
+        </div>
+        <div id="cal-grid" class="closure-cal-grid"></div>
+      </section>
+
+      <div class="closure-layout">
+        <section class="closure-list" aria-labelledby="list-title">
+          <h2 id="list-title">日付順の一覧</h2>
+          <p id="closure-empty" class="patient-empty" hidden>登録されている休業日・特別営業はありません。</p>
+          <div class="closure-table-wrap">
+            <table class="closure-table">
+              <thead>
+                <tr>
+                  <th scope="col">日付</th>
+                  <th scope="col">区分</th>
+                  <th scope="col">予約枠</th>
+                  <th scope="col">理由</th>
+                  <th scope="col">操作</th>
+                </tr>
+              </thead>
+              <tbody id="closure-table"></tbody>
+            </table>
+          </div>
+          <div id="closure-cards" class="closure-cards"></div>
+        </section>
+
+        <section class="patient-form closure-form" aria-labelledby="form-title">
+          <h2 id="form-title">休業日の登録</h2>
+          <form id="closure-form" method="post" action="business-calendar.html">
+            <div class="field">
+              <label for="exception-date">日付</label>
+              <input id="exception-date" name="exception_date" type="date" required>
+            </div>
+            <div class="field">
+              <label for="exception-kind">区分</label>
+              <select id="exception-kind" name="kind" required>
+                <option value="">選択してください</option>
+                <option value="holiday">祝日</option>
+                <option value="substitute_holiday">振替休日</option>
+                <option value="temporary_closure">臨時休業</option>
+                <option value="special_open">特別営業</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="public-reason">公開理由</label>
+              <input id="public-reason" name="public_reason" type="text" maxlength="200" autocomplete="off">
+            </div>
+            <div class="field check-field">
+              <input id="customer-visible" name="is_customer_visible" type="checkbox">
+              <label for="customer-visible">お客様に理由を表示する</label>
+            </div>
+            <div class="field">
+              <label for="admin-note">管理者メモ</label>
+              <textarea id="admin-note" name="admin_note" maxlength="2000"></textarea>
+            </div>
+            <p class="patient-caution">管理者メモは管理画面だけに表示します。</p>
+            <div id="special-hours" hidden>
+              <div class="field">
+                <label for="special-opens">開店</label>
+                <input id="special-opens" type="time" step="60">
+              </div>
+              <div class="field">
+                <label for="special-closes">閉店</label>
+                <input id="special-closes" type="time" step="60">
+              </div>
+              <div class="field">
+                <label for="special-last">最終受付</label>
+                <input id="special-last" type="time" step="60">
+              </div>
+            </div>
+            <p id="form-message" class="form-message" role="alert"></p>
+            <div class="patient-actions">
+              <button id="closure-save" class="submit" type="submit">保存する</button>
+              <button id="closure-reset" class="button-quiet" type="button">入力をクリア</button>
+              <button id="closure-reload" class="button-quiet" type="button">再読み込み</button>
+              <button id="closure-delete" class="button-quiet closure-delete" type="button" hidden>この日付を削除</button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </main>
+  </div>
+  <noscript>
+    <style>#auth-gate { display: none !important; }</style>
+    <p class="gate">休業日の表示にはJavaScriptが必要です。</p>
+  </noscript>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/business-calendar.js"></script>
+</body>
+</html>
